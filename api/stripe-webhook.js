@@ -7,7 +7,7 @@ import Stripe from "stripe";
 import { appendTransactionToSheet } from "../lib/googleSheets.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-h
+
 // Disable Vercel body parser - required for Stripe signature verification
 export const config = {
   api: {
