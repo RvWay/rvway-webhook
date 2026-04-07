@@ -4,9 +4,10 @@
 //          customer.subscription.deleted, invoice.paid
 
 import Stripe from "stripe";
+import { appendTransactionToSheet } from "../lib/googleSheets.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
+h
 // Disable Vercel body parser - required for Stripe signature verification
 export const config = {
   api: {
@@ -137,6 +138,18 @@ async function handleCheckoutCompleted(session) {
 
   transactionLog.premiumActivated = true;
   console.log("OK [RvWay] Premium activated successfully:", JSON.stringify(transactionLog, null, 2));
+
+  // Log to Google Sheets (non-blocking - failure does not affect premium activation)
+  await appendTransactionToSheet({
+    email,
+    affiliate,
+    plan,
+    amountTotal,
+    currency,
+    clientReferenceId: clientRef,
+    sessionId,
+    premiumActivated: true,
+  });
 }
 
 // EVENT HANDLER: customer.subscription.created
