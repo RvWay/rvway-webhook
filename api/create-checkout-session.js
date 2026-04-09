@@ -88,6 +88,7 @@ export default async function handler(req, res) {
       payment_method_types: ["card"],
       customer_email: email,
       line_items: [{ price: priceId, quantity: 1 }],
+      allow_promotion_codes: true,
       metadata: {
         affiliate: affiliateCode,
         plan: normalizedPlan,
